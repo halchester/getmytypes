@@ -2,6 +2,7 @@ const inquirer = require('inquirer');
 const getDependencies = require('./utils/getDependencies');
 const { exec } = require('child_process');
 const ora = require('ora');
+const chalk = require('chalk');
 
 const spinner = ora('Installing ... ');
 
@@ -24,7 +25,8 @@ const spinner = ora('Installing ... ');
 	const { type_choices } = await inquirer.prompt([
 		{
 			type: 'checkbox',
-			message: 'Pick what type files you want to install',
+			message: `Pick what type files you want to install 
+  ${chalk.red('Some packages may not have type files!')}`,
 			name: 'type_choices',
 			choices: dependencies,
 		},
@@ -32,17 +34,31 @@ const spinner = ora('Installing ... ');
 
 	type_choices.forEach((d) => (command += ' ' + `@types/${d}`));
 
-	spinner.start();
-	exec(command, (err, stdout, stderr) => {
-		if (err) {
-			spinner.stop();
-			throw new Error(err);
-		}
-		if (stderr) {
-			console.log(`stderr: ${stderr}`);
-			spinner.stop();
-		}
-		console.log(`stdout: ${stdout}`);
-		spinner.stopAndPersist({ text: 'Successfully installed!' });
-	});
+	const { confirm } = await inquirer.prompt([
+		{
+			type: 'confirm',
+			message: `I will be installing ${chalk.green(
+				type_choices.join(', ')
+			)} into your devDependencies.`,
+			name: 'confirm',
+		},
+	]);
+
+	if (confirm) {
+		spinner.start();
+		exec(command, (err, stdout, stderr) => {
+			if (err) {
+				spinner.stop();
+				throw new Error(err);
+			}
+			if (stderr) {
+				console.log(`stderr: ${stderr}`);
+				spinner.stop();
+			}
+			console.log(`stdout: ${stdout}`);
+			spinner.stopAndPersist({ text: 'Successfully installed!' });
+		});
+	} else {
+		return;
+	}
 })();
