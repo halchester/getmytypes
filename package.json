@@ -1,0 +1,18 @@
+{
+  "name": "typed",
+  "description": "A CLI to install all your @types/<any> files!",
+  "main": "src/main.js",
+  "keywords": [
+    "cli",
+    "typescript",
+    "types",
+    "definitelyTyped"
+  ],
+  "author": "Chester Lynn",
+  "scripts": {
+    "start": "node src/main.js"
+  },
+  "dependencies": {
+    "inquirer": "^8.1.2"
+  }
+}
