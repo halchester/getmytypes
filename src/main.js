@@ -1,6 +1,9 @@
 const inquirer = require('inquirer');
-const path = require('path');
 const getDependencies = require('./utils/getDependencies');
+const { exec } = require('child_process');
+const ora = require('ora');
+
+const spinner = ora('Installing ... ');
 
 (async () => {
 	const { package_manager } = await inquirer.prompt([
@@ -12,19 +15,34 @@ const getDependencies = require('./utils/getDependencies');
 		},
 	]);
 
-	const { confirm } = await inquirer.prompt([
+	let dependencies = await getDependencies();
+
+	let command = `${package_manager} ${
+		package_manager === 'yarn' ? 'add' : 'install'
+	} -D`;
+
+	const { type_choices } = await inquirer.prompt([
 		{
-			type: 'confirm',
-			message: `Installing all type files in your package.json with ${package_manager}`,
-			name: 'confirm',
+			type: 'checkbox',
+			message: 'Pick what type files you want to install',
+			name: 'type_choices',
+			choices: dependencies,
 		},
 	]);
 
-	if (confirm) {
-		let dependencies = await getDependencies();
+	type_choices.forEach((d) => (command += ' ' + `@types/${d}`));
 
-		console.log(dependencies);
-	} else {
-		return;
-	}
+	spinner.start();
+	exec(command, (err, stdout, stderr) => {
+		if (err) {
+			spinner.stop();
+			throw new Error(err);
+		}
+		if (stderr) {
+			console.log(`stderr: ${stderr}`);
+			spinner.stop();
+		}
+		console.log(`stdout: ${stdout}`);
+		spinner.stopAndPersist({ text: 'Successfully installed!' });
+	});
 })();
