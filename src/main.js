@@ -37,25 +37,21 @@ const spinner = ora('Installing ... ');
 	const { confirm } = await inquirer.prompt([
 		{
 			type: 'confirm',
-			message: `I will be installing ${chalk.green(
-				type_choices.join(', ')
-			)} into your devDependencies.`,
+			message: `I will be installing ${chalk.underline(
+				'@types'
+			)} of ${chalk.green(type_choices.join(', '))} into your devDependencies.`,
 			name: 'confirm',
 		},
 	]);
 
 	if (confirm) {
 		spinner.start();
-		exec(command, (err, stdout, stderr) => {
+		exec(command, (err, _stdout) => {
 			if (err) {
-				spinner.stop();
-				throw new Error(err);
+				console.error(err.message);
+				spinner.stopAndPersist({ symbol: '❌', text: 'Installation failed!' });
+				return;
 			}
-			if (stderr) {
-				console.log(`stderr: ${stderr}`);
-				spinner.stop();
-			}
-			console.log(`stdout: ${stdout}`);
 			spinner.stopAndPersist({ text: 'Successfully installed!' });
 		});
 	} else {
