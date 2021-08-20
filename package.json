@@ -1,13 +1,13 @@
 {
-  "name": "type-d",
+  "name": "getmytypes",
   "version": "0.1.0",
   "description": "A CLI to install all your @types/<any> files!",
   "main": "src/main.js",
-  "repository": "halchester/typed",
+  "repository": "halchester/getmytypes",
   "bugs": {
-    "url": "https://github.com/halchester/type-d/issues"
+    "url": "https://github.com/halchester/getmytypes/issues"
   },
-  "homepage": "https://github.com/halchester/type-d#readme",
+  "homepage": "https://github.com/halchester/getmytypes#readme",
   "keywords": [
     "cli",
     "typescript",
