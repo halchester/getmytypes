@@ -1,9 +1,10 @@
 {
   "name": "getmytypes",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "A CLI to install all your @types/<any> files!",
   "main": "src/main.js",
   "repository": "halchester/getmytypes",
+  "bin": "src/main.js",
   "bugs": {
     "url": "https://github.com/halchester/getmytypes/issues"
   },
