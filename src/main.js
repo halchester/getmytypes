@@ -1,3 +1,4 @@
+#!/usr/bin/env node
 const inquirer = require('inquirer');
 const getDependencies = require('./utils/getDependencies');
 const { exec } = require('child_process');
