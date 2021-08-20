@@ -1,14 +1,20 @@
 {
-  "name": "typed",
+  "name": "type-d",
+  "version": "0.1.0",
   "description": "A CLI to install all your @types/<any> files!",
   "main": "src/main.js",
+  "repository": "halchester/typed",
+  "bugs": {
+    "url": "https://github.com/halchester/type-d/issues"
+  },
+  "homepage": "https://github.com/halchester/type-d#readme",
   "keywords": [
     "cli",
     "typescript",
     "types",
     "definitelyTyped"
   ],
-  "author": "Chester Lynn",
+  "author": "Chester Lynn <chester.htooaunglinn@gmail.com>",
   "license": "MIT",
   "scripts": {
     "start": "node src/main.js"
