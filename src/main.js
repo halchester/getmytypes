@@ -3,18 +3,14 @@ const getDependencies = require('./utils/getDependencies');
 const { exec } = require('child_process');
 const ora = require('ora');
 const chalk = require('chalk');
+const getPackageManager = require('./utils/getPackageManager');
 
 const spinner = ora('Installing ... ');
 
+getPackageManager();
+
 (async () => {
-	const { package_manager } = await inquirer.prompt([
-		{
-			type: 'list',
-			message: 'Pick package manager',
-			name: 'package_manager',
-			choices: ['npm', 'yarn'],
-		},
-	]);
+	const package_manager = await getPackageManager();
 
 	let dependencies = await getDependencies();
 
@@ -39,7 +35,9 @@ const spinner = ora('Installing ... ');
 			type: 'confirm',
 			message: `I will be installing ${chalk.underline(
 				'@types'
-			)} of ${chalk.green(type_choices.join(', '))} into your devDependencies.`,
+			)} of ${chalk.green(
+				type_choices.join(', ')
+			)} into your devDependencies with ${chalk.green(package_manager)}.`,
 			name: 'confirm',
 		},
 	]);
