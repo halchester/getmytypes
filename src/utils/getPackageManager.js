@@ -17,7 +17,7 @@ const getPackageManager = async () => {
 					`Detected ${lockFile} in your directory, setting package manager to ${lockFiles[lockFile]}`
 				)
 			);
-			return lockFiles[lockFile];
+			return { package_manager: lockFiles[lockFile] };
 		}
 	}
 };

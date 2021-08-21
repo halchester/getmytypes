@@ -1,6 +1,6 @@
 {
   "name": "getmytypes",
-  "version": "0.1.4",
+  "version": "0.1.5",
   "description": "A CLI to install all your @types/<any> files!",
   "main": "src/main.js",
   "repository": "halchester/getmytypes",

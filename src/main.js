@@ -10,7 +10,18 @@ const getExistingdevDependencies = require('./utils/getExistingdevDependencies')
 const spinner = ora('Installing ... ');
 
 (async () => {
-	const package_manager = await getPackageManager();
+	// For global usage
+	let { package_manager } =
+		(await getPackageManager()) ||
+		(await inquirer.prompt([
+			{
+				type: 'list',
+				message: 'Pick package manager',
+				name: 'package_manager',
+				choices: ['npm', 'yarn'],
+			},
+		]));
+
 	let dependencies = await getDependencies();
 	let devDependencies = await getExistingdevDependencies();
 
