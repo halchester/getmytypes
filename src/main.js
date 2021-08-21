@@ -5,15 +5,14 @@ const { exec } = require('child_process');
 const ora = require('ora');
 const chalk = require('chalk');
 const getPackageManager = require('./utils/getPackageManager');
+const getExistingdevDependencies = require('./utils/getExistingdevDependencies');
 
 const spinner = ora('Installing ... ');
 
-getPackageManager();
-
 (async () => {
 	const package_manager = await getPackageManager();
-
 	let dependencies = await getDependencies();
+	let devDependencies = await getExistingdevDependencies();
 
 	let command = `${package_manager} ${
 		package_manager === 'yarn' ? 'add' : 'install'
@@ -25,7 +24,9 @@ getPackageManager();
 			message: `Pick what type files you want to install 
   ${chalk.red('Some packages may not have type files!')}`,
 			name: 'type_choices',
-			choices: dependencies,
+			choices: devDependencies
+				? dependencies.filter((d) => !devDependencies.includes(d))
+				: dependencies,
 		},
 	]);
 
